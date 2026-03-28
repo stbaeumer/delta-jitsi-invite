@@ -67,10 +67,22 @@ jobs:
             subject="$(git log -1 --pretty=%s "${sha}")"
             short_sha="$(echo "${sha}" | cut -c1-7)"
 
+            workdir="$(mktemp -d)"
+            artifact="${RUNNER_TEMP}/delta-jitsi-invite-${tag}.xdc"
+
+            git archive "${sha}" | tar -x -C "${workdir}"
+            (
+              cd "${workdir}"
+              zip -9 -r "${artifact}" . -x ".git/*" ".github/*" ".vscode/*" "webxdc.js" "*.xdc"
+            )
+
             gh release create "${tag}" \
               --target "${sha}" \
               --title "${tag}" \
-              --notes "Automatischer Release fuer Commit ${short_sha}\n\n${subject}"
+              --notes "Automatischer Release fuer Commit ${short_sha}\n\n${subject}" \
+              "${artifact}#delta-jitsi-invite.xdc"
 
             echo "Created release ${tag} for ${sha}."
+
+            rm -rf "${workdir}" "${artifact}"
           done <<< "${commit_list}"
