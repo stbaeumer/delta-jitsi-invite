@@ -15,7 +15,6 @@
 
       <div class="title-block">
         <h1 id="pageTitle">Jitsi-Einladung erstellen</h1>
-        <p class="subtitle" id="pageSubtitle">Alle Angaben werden direkt darunter als Einladungsvorschau dargestellt oder als Einladungstext kopiert.</p>
       </div>
 
       <form id="inviteForm">
@@ -26,6 +25,8 @@
           <select id="language" name="language">
             <option value="de" selected>Deutsch</option>
             <option value="en">English</option>
+            <option value="fr">Français</option>
+            <option value="nl">Nederlands</option>
           </select>
         </div>
 
@@ -49,7 +50,7 @@
           <div class="field">
             <label class="field-label" for="startDate">
               <img class="field-icon" src="icons/datumUhrzeit.svg" alt="Datum" onerror="this.classList.add('hidden')">
-              <span id="startDateLabel">Startdatum:</span>
+              <span id="startDateLabel">Datum:</span>
             </label>
             <input id="startDate" name="startDate" type="date">
           </div>
@@ -57,7 +58,7 @@
           <div class="field">
             <label class="field-label" for="startTime">
               <img class="field-icon" src="icons/datumUhrzeit.svg" alt="Uhrzeit" onerror="this.classList.add('hidden')">
-              <span id="startTimeLabel">Startuhrzeit:</span>
+              <span id="startTimeLabel">Uhrzeit:</span>
             </label>
             <input id="startTime" name="startTime" type="time">
           </div>
@@ -81,7 +82,10 @@
             <option value="https://brie.fi/ng">https://brie.fi/ng</option>
             <option value="https://chitchatter.im/private">https://chitchatter.im/private</option>
             <option value="https://galene.org:8443/group/public-vp9">https://galene.org:8443/group/public-vp9</option>
+            <option value="https://jitsi.extinctionrebellion.de/">https://jitsi.extinctionrebellion.de/</option>
             <option value="https://kmeet.infomaniak.com">https://kmeet.infomaniak.com</option>
+            <option value="https://meet.cloud1x.de/">https://meet.cloud1x.de/</option>
+            <option value="https://meet.ffmuc.net/">https://meet.ffmuc.net/</option>
             <option value="https://mirotalk.up.railway.app/join">https://mirotalk.up.railway.app/join</option>
             <option value="https://p2p.mirotalk.com/join">https://p2p.mirotalk.com/join</option>
             <option value="https://sfu.mirotalk.com/join">https://sfu.mirotalk.com/join</option>
@@ -103,7 +107,7 @@
             <span id="roomLabel">Raum angeben:</span>
           </label>
           <input id="roomName" name="roomName" type="text" autocomplete="off">
-          <div class="field-hint" id="roomHint">Hinweis: Der Raumname sollte moeglichst eindeutig sein.</div>
+          <div class="field-hint" id="roomHint">Hinweis: Der Raumname sollte so gewählt werden, dass er nicht erraten werden kann.</div>
         </div>
 
         <div class="field">
@@ -127,76 +131,10 @@
           <pre class="output-text" id="invitationOutput"></pre>
         </div>
       </form>
-    </section>
 
-    <section class="panel preview-panel" aria-live="polite">
-      <div class="preview-header">
-        <h2 id="previewHeading">Vorschau</h2>
-      </div>
-
-      <div class="preview-card">
-        <div class="hero-icon-wrap">
-          <img class="hero-icon" src="icons/icon.svg" alt="Vorschausymbol" onerror="this.classList.add('hidden')">
-        </div>
-
-        <h3 class="preview-title" id="previewTitle">Titel des Meetings</h3>
-
-        <div class="preview-item">
-          <div class="preview-label">
-            <img class="field-icon" src="icons/beschreibung.svg" alt="Beschreibung" onerror="this.classList.add('hidden')">
-            <span id="previewDescriptionLabel">Beschreibung:</span>
-          </div>
-          <div class="preview-value" id="previewDescription"></div>
-        </div>
-
-        <div class="preview-item">
-          <div class="preview-label">
-            <img class="field-icon" src="icons/datumUhrzeit.svg" alt="Datum" onerror="this.classList.add('hidden')">
-            <span id="previewStartDateLabel">Startdatum:</span>
-          </div>
-          <div class="preview-value" id="previewStartDate"></div>
-        </div>
-
-        <div class="preview-item">
-          <div class="preview-label">
-            <img class="field-icon" src="icons/datumUhrzeit.svg" alt="Uhrzeit" onerror="this.classList.add('hidden')">
-            <span id="previewStartTimeLabel">Startuhrzeit:</span>
-          </div>
-          <div class="preview-value" id="previewStartTime"></div>
-        </div>
-
-        <div class="preview-item">
-          <div class="preview-label">
-            <img class="field-icon" src="icons/dauer.svg" alt="Dauer" onerror="this.classList.add('hidden')">
-            <span id="previewDurationLabel">Dauer:</span>
-          </div>
-          <div class="preview-value" id="previewDuration"></div>
-        </div>
-
-        <div class="preview-item">
-          <div class="preview-label">
-            <img class="field-icon" src="icons/raum.svg" alt="Raum" onerror="this.classList.add('hidden')">
-            <span id="previewRoomLabel">Raum:</span>
-          </div>
-          <div class="preview-value" id="previewRoom"></div>
-        </div>
-
-        <div class="preview-item">
-          <div class="preview-label">
-            <img class="field-icon" src="icons/agenda.svg" alt="Agenda" onerror="this.classList.add('hidden')">
-            <span id="previewAgendaLabel">Agenda:</span>
-          </div>
-          <div class="preview-value" id="previewAgenda"></div>
-        </div>
-
-        <div class="preview-item">
-          <div class="preview-label">
-            <img class="field-icon" src="icons/server.svg" alt="Raum betreten" onerror="this.classList.add('hidden')">
-            <span id="previewJoinLabel">Raum betreten:</span>
-          </div>
-          <div class="preview-value" id="previewJoinUrl"></div>
-        </div>
-      </div>
+      <footer class="site-footer">
+        <a id="footerLinkLabel" href="https://github.com/stbaeumer/delta-jitsi-invite" target="_blank" rel="noreferrer noopener">Projekt auf GitHub ansehen</a>
+      </footer>
     </section>
   </div>
 

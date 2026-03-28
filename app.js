@@ -5,13 +5,13 @@ const translations = {
     languageLabel: 'Sprache festlegen:',
     meetingTitleLabel: 'Titel des Meetings:',
     descriptionLabel: 'Beschreibung:',
-    startDateLabel: 'Startdatum:',
-    startTimeLabel: 'Startuhrzeit:',
+    startDateLabel: 'Datum:',
+    startTimeLabel: 'Uhrzeit:',
     durationLabel: 'Dauer in Minuten:',
     serverLabel: 'Auswahl des Servers:',
     customServerLabel: 'Anderen Server angeben:',
     roomLabel: 'Raum angeben:',
-    roomHint: 'Hinweis: Der Raumname sollte möglichst eindeutig sein.',
+    roomHint: 'Hinweis: Der Raumname sollte so gewählt werden, dass er nicht erraten werden kann.',
     agendaLabel: 'Agenda angeben:',
     submitButton: 'In Chat senden',
     copyButton: 'Nachricht kopieren',
@@ -20,8 +20,8 @@ const translations = {
     outputHeading: 'Nachrichtentext',
     previewHeading: 'Vorschau',
     previewDescriptionLabel: 'Beschreibung:',
-    previewStartDateLabel: 'Startdatum:',
-    previewStartTimeLabel: 'Startuhrzeit:',
+    previewStartDateLabel: 'Datum:',
+    previewStartTimeLabel: 'Uhrzeit:',
     previewDurationLabel: 'Dauer:',
     previewServerLabel: 'Server:',
     previewRoomLabel: 'Raum:',
@@ -29,8 +29,8 @@ const translations = {
     previewJoinLabel: 'Raum betreten:',
     placeholderTitle: 'Titel des Meetings',
     placeholderDescription: 'Keine Beschreibung angegeben',
-    placeholderStartDate: 'Kein Startdatum angegeben',
-    placeholderStartTime: 'Keine Startuhrzeit angegeben',
+    placeholderStartDate: 'Kein Datum angegeben',
+    placeholderStartTime: 'Keine Uhrzeit angegeben',
     placeholderDuration: 'Keine Dauer angegeben',
     placeholderServer: 'Kein Server ausgewählt',
     placeholderRoom: 'Kein Raum angegeben',
@@ -48,7 +48,8 @@ const translations = {
     msgIconJoin: '🔗',
     chatPreparedHint: 'Der Chat-Entwurf wurde vorbereitet.',
     chatFallbackHint: 'webxdc ist hier nicht verfügbar. Der Nachrichtentext wurde stattdessen kopiert.',
-    chatErrorHint: 'Die Nachricht konnte nicht an den Chat übergeben werden.'
+    chatErrorHint: 'Die Nachricht konnte nicht an den Chat übergeben werden.',
+    footerLinkLabel: 'Projekt auf GitHub ansehen'
   },
   en: {
     pageTitle: 'Create Jitsi Invitation',
@@ -99,9 +100,127 @@ const translations = {
     msgIconJoin: '🔗',
     chatPreparedHint: 'The chat draft was prepared.',
     chatFallbackHint: 'webxdc is not available here. The message text was copied instead.',
-    chatErrorHint: 'The message could not be handed over to the chat.'
+    chatErrorHint: 'The message could not be handed over to the chat.',
+    footerLinkLabel: 'View project on GitHub'
+  },
+  fr: {
+    pageTitle: 'Créer une invitation Jitsi',
+    pageSubtitle: 'Toutes les informations sont affichées ci-dessous et peuvent être envoyées comme message de chat ou copiées.',
+    languageLabel: 'Choisir la langue :',
+    meetingTitleLabel: 'Titre de la réunion :',
+    descriptionLabel: 'Description :',
+    startDateLabel: 'Date :',
+    startTimeLabel: 'Heure :',
+    durationLabel: 'Durée en minutes :',
+    serverLabel: 'Choisir le serveur :',
+    customServerLabel: 'Saisir un serveur personnalisé :',
+    roomLabel: 'Nom de la salle :',
+    roomHint: 'Conseil : choisissez un nom de salle difficile à deviner.',
+    agendaLabel: 'Ordre du jour :',
+    submitButton: 'Envoyer au chat',
+    copyButton: 'Copier le message',
+    copiedButton: 'Message copié',
+    submitHint: 'Le premier bouton prépare un brouillon de chat, le second copie le même texte.',
+    outputHeading: 'Texte du message',
+    previewHeading: 'Aperçu',
+    previewDescriptionLabel: 'Description :',
+    previewStartDateLabel: 'Date :',
+    previewStartTimeLabel: 'Heure :',
+    previewDurationLabel: 'Durée :',
+    previewServerLabel: 'Serveur :',
+    previewRoomLabel: 'Salle :',
+    previewAgendaLabel: 'Ordre du jour :',
+    previewJoinLabel: 'Rejoindre la salle :',
+    placeholderTitle: 'Titre de la réunion',
+    placeholderDescription: 'Aucune description indiquée',
+    placeholderStartDate: 'Aucune date indiquée',
+    placeholderStartTime: 'Aucune heure indiquée',
+    placeholderDuration: 'Aucune durée indiquée',
+    placeholderServer: 'Aucun serveur sélectionné',
+    placeholderRoom: 'Aucune salle indiquée',
+    placeholderAgenda: 'Aucun ordre du jour indiqué',
+    placeholderJoin: 'L\'URL sera générée automatiquement',
+    durationUnit: 'minutes',
+    customServerOption: 'Serveur personnalisé',
+    msgIconTitle: '🎥',
+    msgIconDescription: '📝',
+    msgIconDate: '📅',
+    msgIconTime: '⏰',
+    msgIconDuration: '⏳',
+    msgIconRoom: '🚪',
+    msgIconAgenda: '📋',
+    msgIconJoin: '🔗',
+    chatPreparedHint: 'Le brouillon de chat a été préparé.',
+    chatFallbackHint: 'webxdc n\'est pas disponible ici. Le texte du message a été copié.',
+    chatErrorHint: 'Le message n\'a pas pu être transféré au chat.',
+    footerLinkLabel: 'Voir le projet sur GitHub'
+  },
+  nl: {
+    pageTitle: 'Jitsi-uitnodiging maken',
+    pageSubtitle: 'Alle gegevens worden hieronder weergegeven en kunnen als chatbericht worden verzonden of gekopieerd.',
+    languageLabel: 'Kies taal:',
+    meetingTitleLabel: 'Vergadertitel:',
+    descriptionLabel: 'Beschrijving:',
+    startDateLabel: 'Datum:',
+    startTimeLabel: 'Tijd:',
+    durationLabel: 'Duur in minuten:',
+    serverLabel: 'Server kiezen:',
+    customServerLabel: 'Aangepaste server invoeren:',
+    roomLabel: 'Ruimtenaam:',
+    roomHint: 'Tip: kies een ruimtenaam die niet te raden is.',
+    agendaLabel: 'Agenda:',
+    submitButton: 'Naar chat verzenden',
+    copyButton: 'Bericht kopiëren',
+    copiedButton: 'Bericht gekopieerd',
+    submitHint: 'De eerste knop maakt een chatconcept, de tweede kopieert dezelfde tekst.',
+    outputHeading: 'Berichttekst',
+    previewHeading: 'Voorbeeld',
+    previewDescriptionLabel: 'Beschrijving:',
+    previewStartDateLabel: 'Datum:',
+    previewStartTimeLabel: 'Tijd:',
+    previewDurationLabel: 'Duur:',
+    previewServerLabel: 'Server:',
+    previewRoomLabel: 'Ruimte:',
+    previewAgendaLabel: 'Agenda:',
+    previewJoinLabel: 'Ruimte betreden:',
+    placeholderTitle: 'Vergadertitel',
+    placeholderDescription: 'Geen beschrijving opgegeven',
+    placeholderStartDate: 'Geen datum opgegeven',
+    placeholderStartTime: 'Geen tijd opgegeven',
+    placeholderDuration: 'Geen duur opgegeven',
+    placeholderServer: 'Geen server geselecteerd',
+    placeholderRoom: 'Geen ruimte opgegeven',
+    placeholderAgenda: 'Geen agenda opgegeven',
+    placeholderJoin: 'URL wordt automatisch aangemaakt',
+    durationUnit: 'minuten',
+    customServerOption: 'Aangepaste server',
+    msgIconTitle: '🎥',
+    msgIconDescription: '📝',
+    msgIconDate: '📅',
+    msgIconTime: '⏰',
+    msgIconDuration: '⏳',
+    msgIconRoom: '🚪',
+    msgIconAgenda: '📋',
+    msgIconJoin: '🔗',
+    chatPreparedHint: 'Het chatconcept is voorbereid.',
+    chatFallbackHint: 'webxdc is hier niet beschikbaar. De berichttekst is gekopieerd.',
+    chatErrorHint: 'Het bericht kon niet aan de chat worden doorgegeven.',
+    footerLinkLabel: 'Bekijk project op GitHub'
   }
 };
+
+function localeForLanguage(language) {
+  if (language === 'de') {
+    return 'de-DE';
+  }
+  if (language === 'fr') {
+    return 'fr-FR';
+  }
+  if (language === 'nl') {
+    return 'nl-NL';
+  }
+  return 'en-GB';
+}
 
 const form = document.getElementById('inviteForm');
 const languageSelect = document.getElementById('language');
@@ -122,17 +241,6 @@ const fields = {
   durationMinutes: durationInput,
   roomName: document.getElementById('roomName'),
   agenda: document.getElementById('agenda')
-};
-
-const preview = {
-  title: document.getElementById('previewTitle'),
-  description: document.getElementById('previewDescription'),
-  startDate: document.getElementById('previewStartDate'),
-  startTime: document.getElementById('previewStartTime'),
-  duration: document.getElementById('previewDuration'),
-  room: document.getElementById('previewRoom'),
-  agenda: document.getElementById('previewAgenda'),
-  joinUrl: document.getElementById('previewJoinUrl')
 };
 
 let feedbackTimer = 0;
@@ -176,7 +284,7 @@ function formatDate(value, language) {
     return value;
   }
 
-  return new Intl.DateTimeFormat(language === 'de' ? 'de-DE' : 'en-GB', {
+  return new Intl.DateTimeFormat(localeForLanguage(language), {
     dateStyle: 'full'
   }).format(parsed);
 }
@@ -196,7 +304,7 @@ function formatTime(value, language) {
     return value;
   }
 
-  return new Intl.DateTimeFormat(language === 'de' ? 'de-DE' : 'en-GB', {
+  return new Intl.DateTimeFormat(localeForLanguage(language), {
     timeStyle: 'short',
     timeZone: 'UTC'
   }).format(parsed);
@@ -227,28 +335,6 @@ function buildJoinUrl(server, room) {
   }
 
   return trimmedServer.replace(/\/+$/, '') + '/' + trimmedRoom;
-}
-
-function setPreviewText(element, value, fallback, asLink = false) {
-  if (value) {
-    if (asLink) {
-      element.innerHTML = '';
-      const link = document.createElement('a');
-      link.href = value;
-      link.textContent = value;
-      link.className = 'preview-link';
-      link.target = '_blank';
-      link.rel = 'noreferrer noopener';
-      element.appendChild(link);
-    } else {
-      element.textContent = value;
-    }
-    element.classList.remove('placeholder');
-    return;
-  }
-
-  element.textContent = fallback;
-  element.classList.add('placeholder');
 }
 
 function updateCustomServerVisibility() {
@@ -330,18 +416,6 @@ function showSubmitFeedback(message, state) {
 
 function updatePreview() {
   const language = languageSelect.value;
-  const copy = translations[language];
-  const content = getPreviewContent(language);
-
-  setPreviewText(preview.title, content.title, copy.placeholderTitle);
-  setPreviewText(preview.description, content.description, copy.placeholderDescription);
-  setPreviewText(preview.startDate, content.startDate, copy.placeholderStartDate);
-  setPreviewText(preview.startTime, content.startTime, copy.placeholderStartTime);
-  setPreviewText(preview.duration, content.duration, copy.placeholderDuration);
-  setPreviewText(preview.room, content.room, copy.placeholderRoom);
-  setPreviewText(preview.agenda, content.agenda, copy.placeholderAgenda);
-  setPreviewText(preview.joinUrl, content.joinUrl, copy.placeholderJoin, true);
-
   invitationOutput.textContent = buildSharedMessage(language);
 }
 
