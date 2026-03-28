@@ -64,9 +64,6 @@ jobs:
               tag="0.0.${next_patch}"
             done
 
-            subject="$(git log -1 --pretty=%s "${sha}")"
-            short_sha="$(echo "${sha}" | cut -c1-7)"
-
             workdir="$(mktemp -d)"
             artifact="${RUNNER_TEMP}/delta-jitsi-invite-${tag}.xdc"
 
@@ -79,7 +76,7 @@ jobs:
             gh release create "${tag}" \
               --target "${sha}" \
               --title "${tag}" \
-              --notes "Laden Sie die xdc herunter und laden Sie die dann als Datei in Ihren Chat hoch.\n\nCommit: ${short_sha}\n${subject}" \
+              --notes "Laden Sie die xdc herunter und laden Sie die dann als Datei in Ihren Chat hoch." \
               "${artifact}#delta-jitsi-invite.xdc"
 
             echo "Created release ${tag} for ${sha}."
