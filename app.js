@@ -280,25 +280,24 @@ function getPreviewContent(language) {
 function buildSharedMessage(language) {
   const copy = translations[language];
   const content = getPreviewContent(language);
-  const descriptionLabel = copy.previewDescriptionLabel.replace(/:$/, '');
-  const startDateLabel = copy.previewStartDateLabel.replace(/:$/, '');
-  const startTimeLabel = copy.previewStartTimeLabel.replace(/:$/, '');
-  const durationLabel = copy.previewDurationLabel.replace(/:$/, '');
-  const roomLabel = copy.previewRoomLabel.replace(/:$/, '');
-  const agendaLabel = copy.previewAgendaLabel.replace(/:$/, '');
-  const joinLabel = copy.previewJoinLabel.replace(/:$/, '');
-  const joinIcon = content.rawJoinUrl ? '[' + copy.msgIconJoin + '](' + content.rawJoinUrl + ')' : copy.msgIconJoin;
+  const descriptionLabel = copy.previewDescriptionLabel;
+  const startDateLabel = copy.previewStartDateLabel;
+  const startTimeLabel = copy.previewStartTimeLabel;
+  const durationLabel = copy.previewDurationLabel;
+  const roomLabel = copy.previewRoomLabel;
+  const agendaLabel = copy.previewAgendaLabel;
+  const joinLabel = copy.previewJoinLabel;
 
   const lines = [
     copy.msgIconTitle + ' ' + content.title,
     '',
-    copy.msgIconDescription + ' **' + descriptionLabel + ':** ' + content.description,
-    copy.msgIconDate + ' **' + startDateLabel + ':** ' + content.startDate,
-    copy.msgIconTime + ' **' + startTimeLabel + ':** ' + content.startTime,
-    copy.msgIconDuration + ' **' + durationLabel + ':** ' + content.duration,
-    copy.msgIconRoom + ' **' + roomLabel + ':** ' + content.room,
-    copy.msgIconAgenda + ' **' + agendaLabel + ':** ' + content.agenda,
-    joinIcon + ' **' + joinLabel + ':** ' + content.joinUrl
+    copy.msgIconDescription + ' ' + descriptionLabel + ' ' + content.description,
+    copy.msgIconDate + ' ' + startDateLabel + ' ' + content.startDate,
+    copy.msgIconTime + ' ' + startTimeLabel + ' ' + content.startTime,
+    copy.msgIconDuration + ' ' + durationLabel + ' ' + content.duration,
+    copy.msgIconRoom + ' ' + roomLabel + ' ' + content.room,
+    copy.msgIconAgenda + ' ' + agendaLabel + ' ' + content.agenda,
+    copy.msgIconJoin + ' ' + joinLabel + ' ' + content.joinUrl
   ];
 
   return lines.join('\n');
