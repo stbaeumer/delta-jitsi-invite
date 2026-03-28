@@ -12,7 +12,15 @@ The app lets users:
 3. Send the preview as a chat draft via `webxdc.sendToChat()`.
 
 ## Images
-Screenshots will be added soon.
+Create invitation
+<img width="864" height="1920" alt="create_invitation" src="https://github.com/user-attachments/assets/9e6ff2c9-7a74-4ea5-a715-62d6019c2bff" />
+Send to chat
+<img width="864" height="1920" alt="send_to_chat" src="https://github.com/user-attachments/assets/910eaf82-f07c-43eb-b0e6-d4c698da7a40" />
+Message 
+<img width="864" height="1920" alt="message" src="https://github.com/user-attachments/assets/f01742ec-e33c-490c-8670-ee39a57aca8d" />
+
+
+
 
 Planned image slots:
 1. Form view
