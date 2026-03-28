@@ -56,3 +56,7 @@ On every push, GitHub Actions:
 1. Creates the next version tag (`0.0.1`, `0.0.2`, ...).
 2. Builds a fresh `.xdc` artifact from the pushed commit.
 3. Publishes a GitHub Release and attaches `delta-jitsi-invite.xdc`.
+
+## Attributions
+
+App icon by [Fathor Rohman](https://icon-icons.com/icon/meeting-communications-conference-video-call/250229) via icon-icons.com.
