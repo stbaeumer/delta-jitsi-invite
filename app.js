@@ -1,7 +1,7 @@
 const translations = {
   de: {
     pageTitle: 'Jitsi-Einladung erstellen',
-    pageSubtitle: 'Alle Angaben werden direkt darunter als Einladungsvorschau dargestellt und koennen als Chat-Nachricht gesendet oder kopiert werden.',
+    pageSubtitle: 'Alle Angaben werden direkt darunter als Einladungsvorschau dargestellt und können als Chat-Nachricht gesendet oder kopiert werden.',
     languageLabel: 'Sprache festlegen:',
     meetingTitleLabel: 'Titel des Meetings:',
     descriptionLabel: 'Beschreibung:',
@@ -46,8 +46,8 @@ const translations = {
     msgIconAgenda: '📋',
     msgIconJoin: '🔗',
     chatPreparedHint: 'Der Chat-Entwurf wurde vorbereitet.',
-    chatFallbackHint: 'webxdc ist hier nicht verfuegbar. Der Nachrichtentext wurde stattdessen kopiert.',
-    chatErrorHint: 'Die Nachricht konnte nicht an den Chat uebergeben werden.'
+    chatFallbackHint: 'webxdc ist hier nicht verfügbar. Der Nachrichtentext wurde stattdessen kopiert.',
+    chatErrorHint: 'Die Nachricht konnte nicht an den Chat übergeben werden.'
   },
   en: {
     pageTitle: 'Create Jitsi Invitation',
@@ -272,37 +272,33 @@ function getPreviewContent(language) {
     duration: fields.durationMinutes.value ? fields.durationMinutes.value + ' ' + copy.durationUnit : copy.placeholderDuration,
     room: room || copy.placeholderRoom,
     agenda: fields.agenda.value.trim() || copy.placeholderAgenda,
-    joinUrl: joinUrl || copy.placeholderJoin
+    joinUrl: joinUrl || copy.placeholderJoin,
+    rawJoinUrl: joinUrl
   };
 }
 
 function buildSharedMessage(language) {
   const copy = translations[language];
   const content = getPreviewContent(language);
+  const descriptionLabel = copy.previewDescriptionLabel.replace(/:$/, '');
+  const startDateLabel = copy.previewStartDateLabel.replace(/:$/, '');
+  const startTimeLabel = copy.previewStartTimeLabel.replace(/:$/, '');
+  const durationLabel = copy.previewDurationLabel.replace(/:$/, '');
+  const roomLabel = copy.previewRoomLabel.replace(/:$/, '');
+  const agendaLabel = copy.previewAgendaLabel.replace(/:$/, '');
+  const joinLabel = copy.previewJoinLabel.replace(/:$/, '');
+  const joinIcon = content.rawJoinUrl ? '[' + copy.msgIconJoin + '](' + content.rawJoinUrl + ')' : copy.msgIconJoin;
 
   const lines = [
     copy.msgIconTitle + ' ' + content.title,
     '',
-    copy.msgIconDescription + ' ' + copy.previewDescriptionLabel,
-    content.description,
-    '',
-    copy.msgIconDate + ' ' + copy.previewStartDateLabel,
-    content.startDate,
-    '',
-    copy.msgIconTime + ' ' + copy.previewStartTimeLabel,
-    content.startTime,
-    '',
-    copy.msgIconDuration + ' ' + copy.previewDurationLabel,
-    content.duration,
-    '',
-    copy.msgIconRoom + ' ' + copy.previewRoomLabel,
-    content.room,
-    '',
-    copy.msgIconAgenda + ' ' + copy.previewAgendaLabel,
-    content.agenda,
-    '',
-    copy.msgIconJoin + ' ' + copy.previewJoinLabel,
-    content.joinUrl
+    copy.msgIconDescription + ' **' + descriptionLabel + ':** ' + content.description,
+    copy.msgIconDate + ' **' + startDateLabel + ':** ' + content.startDate,
+    copy.msgIconTime + ' **' + startTimeLabel + ':** ' + content.startTime,
+    copy.msgIconDuration + ' **' + durationLabel + ':** ' + content.duration,
+    copy.msgIconRoom + ' **' + roomLabel + ':** ' + content.room,
+    copy.msgIconAgenda + ' **' + agendaLabel + ':** ' + content.agenda,
+    joinIcon + ' **' + joinLabel + ':** ' + content.joinUrl
   ];
 
   return lines.join('\n');

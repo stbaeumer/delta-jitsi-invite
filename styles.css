@@ -283,6 +283,8 @@ textarea {
   font-weight: 700;
   text-decoration-thickness: 2px;
   text-underline-offset: 3px;
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
 .placeholder {
@@ -345,6 +347,8 @@ button:active {
   white-space: pre-wrap;
   line-height: 1.6;
   color: var(--text);
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
 .assistive {
