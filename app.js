@@ -1,7 +1,7 @@
 const translations = {
   de: {
     pageTitle: 'Jitsi-Einladung erstellen',
-    pageSubtitle: 'Alle Angaben werden direkt darunter als Einladungsvorschau dargestellt oder als Einladungstext kopiert.',
+    pageSubtitle: 'Alle Angaben werden direkt darunter als Einladungsvorschau dargestellt und koennen als Chat-Nachricht gesendet oder kopiert werden.',
     languageLabel: 'Sprache festlegen:',
     meetingTitleLabel: 'Titel des Meetings:',
     descriptionLabel: 'Beschreibung:',
@@ -12,11 +12,11 @@ const translations = {
     customServerLabel: 'Anderen Server angeben:',
     roomLabel: 'Raum angeben:',
     agendaLabel: 'Agenda angeben:',
-    submitButton: 'Per E-Mail senden',
-    copyButton: 'Einladung kopieren',
-    copiedButton: 'Einladung kopiert',
-    submitHint: 'Der erste Button erstellt eine E-Mail, der zweite kopiert den Einladungstext.',
-    outputHeading: 'Einladungstext',
+    submitButton: 'In Chat senden',
+    copyButton: 'Nachricht kopieren',
+    copiedButton: 'Nachricht kopiert',
+    submitHint: 'Der erste Button erzeugt einen Chat-Entwurf, der zweite kopiert denselben Text.',
+    outputHeading: 'Nachrichtentext',
     previewHeading: 'Vorschau',
     previewDescriptionLabel: 'Beschreibung:',
     previewStartDateLabel: 'Startdatum:',
@@ -37,13 +37,13 @@ const translations = {
     placeholderJoin: 'URL wird automatisch erzeugt',
     durationUnit: 'Minuten',
     customServerOption: 'Anderer Server',
-    mailBodyIntro: 'Hallo,',
-    mailBodyText: 'hier sind die Daten fuer das Meeting:',
-    mailBodyJoin: 'Raum betreten'
+    chatPreparedHint: 'Der Chat-Entwurf wurde vorbereitet.',
+    chatFallbackHint: 'webxdc ist hier nicht verfuegbar. Der Nachrichtentext wurde stattdessen kopiert.',
+    chatErrorHint: 'Die Nachricht konnte nicht an den Chat uebergeben werden.'
   },
   en: {
     pageTitle: 'Create Jitsi Invitation',
-    pageSubtitle: 'All values are shown below as a preview and as a copyable invitation text.',
+    pageSubtitle: 'All values are shown below as a preview and can be sent as a chat message or copied.',
     languageLabel: 'Choose language:',
     meetingTitleLabel: 'Meeting title:',
     descriptionLabel: 'Description:',
@@ -54,11 +54,11 @@ const translations = {
     customServerLabel: 'Enter custom server:',
     roomLabel: 'Enter room:',
     agendaLabel: 'Agenda:',
-    submitButton: 'Send by email',
-    copyButton: 'Copy invitation',
-    copiedButton: 'Invitation copied',
-    submitHint: 'The first button opens an email, the second copies the invitation text.',
-    outputHeading: 'Invitation text',
+    submitButton: 'Send to chat',
+    copyButton: 'Copy message',
+    copiedButton: 'Message copied',
+    submitHint: 'The first button prepares a chat draft, the second copies the same text.',
+    outputHeading: 'Message text',
     previewHeading: 'Preview',
     previewDescriptionLabel: 'Description:',
     previewStartDateLabel: 'Start date:',
@@ -79,9 +79,9 @@ const translations = {
     placeholderJoin: 'URL will be generated automatically',
     durationUnit: 'minutes',
     customServerOption: 'Custom server',
-    mailBodyIntro: 'Hello,',
-    mailBodyText: 'here are the meeting details:',
-    mailBodyJoin: 'Join room'
+    chatPreparedHint: 'The chat draft was prepared.',
+    chatFallbackHint: 'webxdc is not available here. The message text was copied instead.',
+    chatErrorHint: 'The message could not be handed over to the chat.'
   }
 };
 
@@ -93,6 +93,7 @@ const customServerInput = document.getElementById('customServer');
 const durationInput = document.getElementById('durationMinutes');
 const copyButton = document.getElementById('copyButton');
 const submitButton = document.getElementById('submitButton');
+const submitHint = document.getElementById('submitHint');
 const invitationOutput = document.getElementById('invitationOutput');
 
 const fields = {
@@ -116,6 +117,8 @@ const preview = {
   joinUrl: document.getElementById('previewJoinUrl')
 };
 
+let feedbackTimer = 0;
+
 function localizePage(language) {
   const copy = translations[language];
   document.documentElement.lang = language;
@@ -135,6 +138,11 @@ function localizePage(language) {
 
   if (!copyButton.dataset.copied) {
     copyButton.textContent = copy.copyButton;
+  }
+
+  if (!submitHint.dataset.feedback) {
+    submitHint.textContent = copy.submitHint;
+    submitHint.classList.remove('is-success', 'is-error');
   }
 
   updatePreview();
@@ -234,54 +242,79 @@ function updateCustomServerVisibility() {
   }
 }
 
-function buildInvitationText(language) {
+function getPreviewContent(language) {
   const copy = translations[language];
   const server = selectedServer();
   const room = fields.roomName.value.trim();
   const joinUrl = buildJoinUrl(server, room);
 
+  return {
+    title: fields.meetingTitle.value.trim() || copy.placeholderTitle,
+    description: fields.description.value.trim() || copy.placeholderDescription,
+    startDate: formatDate(fields.startDate.value, language) || copy.placeholderStartDate,
+    startTime: formatTime(fields.startTime.value, language) || copy.placeholderStartTime,
+    duration: fields.durationMinutes.value ? fields.durationMinutes.value + ' ' + copy.durationUnit : copy.placeholderDuration,
+    room: room || copy.placeholderRoom,
+    agenda: fields.agenda.value.trim() || copy.placeholderAgenda,
+    joinUrl: joinUrl || copy.placeholderJoin
+  };
+}
+
+function buildSharedMessage(language) {
+  const copy = translations[language];
+  const content = getPreviewContent(language);
+
   const lines = [
-    copy.mailBodyIntro,
+    content.title,
     '',
-    copy.mailBodyText,
-    '',
-    copy.meetingTitleLabel + ' ' + (fields.meetingTitle.value.trim() || copy.placeholderTitle),
-    copy.descriptionLabel + ' ' + (fields.description.value.trim() || copy.placeholderDescription),
-    copy.startDateLabel + ' ' + (formatDate(fields.startDate.value, language) || copy.placeholderStartDate),
-    copy.startTimeLabel + ' ' + (formatTime(fields.startTime.value, language) || copy.placeholderStartTime),
-    copy.durationLabel + ' ' + (fields.durationMinutes.value ? fields.durationMinutes.value + ' ' + copy.durationUnit : copy.placeholderDuration),
-    copy.serverLabel + ' ' + (server || copy.placeholderServer),
-    copy.roomLabel + ' ' + (room || copy.placeholderRoom),
-    copy.agendaLabel + ' ' + (fields.agenda.value.trim() || copy.placeholderAgenda),
-    copy.mailBodyJoin + ': ' + (joinUrl || copy.placeholderJoin)
+    copy.previewDescriptionLabel + ' ' + content.description,
+    copy.previewStartDateLabel + ' ' + content.startDate,
+    copy.previewStartTimeLabel + ' ' + content.startTime,
+    copy.previewDurationLabel + ' ' + content.duration,
+    copy.previewRoomLabel + ' ' + content.room,
+    copy.previewAgendaLabel + ' ' + content.agenda,
+    copy.previewJoinLabel + ' ' + content.joinUrl
   ];
 
   return lines.join('\n');
 }
 
+function showSubmitFeedback(message, state) {
+  submitHint.dataset.feedback = 'true';
+  submitHint.textContent = message;
+  submitHint.classList.toggle('is-success', state === 'success');
+  submitHint.classList.toggle('is-error', state === 'error');
+
+  window.clearTimeout(feedbackTimer);
+  feedbackTimer = window.setTimeout(() => {
+    const copy = translations[languageSelect.value];
+    submitHint.dataset.feedback = '';
+    submitHint.textContent = copy.submitHint;
+    submitHint.classList.remove('is-success', 'is-error');
+  }, 2600);
+}
+
 function updatePreview() {
   const language = languageSelect.value;
   const copy = translations[language];
-  const server = selectedServer();
-  const room = fields.roomName.value.trim();
-  const joinUrl = buildJoinUrl(server, room);
+  const content = getPreviewContent(language);
 
-  setPreviewText(preview.title, fields.meetingTitle.value.trim(), copy.placeholderTitle);
-  setPreviewText(preview.description, fields.description.value.trim(), copy.placeholderDescription);
-  setPreviewText(preview.startDate, formatDate(fields.startDate.value, language), copy.placeholderStartDate);
-  setPreviewText(preview.startTime, formatTime(fields.startTime.value, language), copy.placeholderStartTime);
-  setPreviewText(preview.duration, fields.durationMinutes.value ? fields.durationMinutes.value + ' ' + copy.durationUnit : '', copy.placeholderDuration);
-  setPreviewText(preview.room, room, copy.placeholderRoom);
-  setPreviewText(preview.agenda, fields.agenda.value.trim(), copy.placeholderAgenda);
-  setPreviewText(preview.joinUrl, joinUrl, copy.placeholderJoin, true);
+  setPreviewText(preview.title, content.title, copy.placeholderTitle);
+  setPreviewText(preview.description, content.description, copy.placeholderDescription);
+  setPreviewText(preview.startDate, content.startDate, copy.placeholderStartDate);
+  setPreviewText(preview.startTime, content.startTime, copy.placeholderStartTime);
+  setPreviewText(preview.duration, content.duration, copy.placeholderDuration);
+  setPreviewText(preview.room, content.room, copy.placeholderRoom);
+  setPreviewText(preview.agenda, content.agenda, copy.placeholderAgenda);
+  setPreviewText(preview.joinUrl, content.joinUrl, copy.placeholderJoin, true);
 
-  invitationOutput.textContent = buildInvitationText(language);
+  invitationOutput.textContent = buildSharedMessage(language);
 }
 
 async function copyInvitation() {
   const language = languageSelect.value;
   const copy = translations[language];
-  const text = buildInvitationText(language);
+  const text = buildSharedMessage(language);
 
   try {
     await navigator.clipboard.writeText(text);
@@ -295,6 +328,35 @@ async function copyInvitation() {
     }, 1800);
   } catch {
     invitationOutput.textContent = text;
+  }
+}
+
+async function sendMessageToChat() {
+  const language = languageSelect.value;
+  const copy = translations[language];
+  const text = buildSharedMessage(language);
+
+  try {
+    if (!window.webxdc || window.webxdc.__isFallback || typeof window.webxdc.sendToChat !== 'function') {
+      await navigator.clipboard.writeText(text);
+      invitationOutput.textContent = text;
+      showSubmitFeedback(copy.chatFallbackHint, 'success');
+      return;
+    }
+
+    await window.webxdc.sendToChat({
+      text,
+      file: {
+        name: 'jitsi-einladung.txt',
+        plainText: text
+      }
+    });
+
+    showSubmitFeedback(copy.chatPreparedHint, 'success');
+  } catch (error) {
+    console.error(error);
+    invitationOutput.textContent = text;
+    showSubmitFeedback(copy.chatErrorHint, 'error');
   }
 }
 
@@ -322,10 +384,7 @@ customServerInput.addEventListener('input', updatePreview);
 
 form.addEventListener('submit', (event) => {
   event.preventDefault();
-  const language = languageSelect.value;
-  const subject = fields.meetingTitle.value.trim() || translations[language].pageTitle;
-  const body = buildInvitationText(language);
-  window.location.href = 'mailto:?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+  sendMessageToChat();
 });
 
 updateCustomServerVisibility();

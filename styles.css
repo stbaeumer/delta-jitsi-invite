@@ -354,6 +354,14 @@ button:active {
   font-size: 0.95rem;
 }
 
+.assistive.is-success {
+  color: var(--accent-strong);
+}
+
+.assistive.is-error {
+  color: var(--secondary);
+}
+
 @media (max-width: 760px) {
   .form-panel,
   .preview-panel,
