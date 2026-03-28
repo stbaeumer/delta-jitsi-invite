@@ -79,7 +79,7 @@ jobs:
             gh release create "${tag}" \
               --target "${sha}" \
               --title "${tag}" \
-              --notes "Automatischer Release fuer Commit ${short_sha}\n\n${subject}" \
+              --notes "Laden Sie die xdc herunter und laden Sie die dann als Datei in Ihren Chat hoch.\n\nCommit: ${short_sha}\n${subject}" \
               "${artifact}#delta-jitsi-invite.xdc"
 
             echo "Created release ${tag} for ${sha}."

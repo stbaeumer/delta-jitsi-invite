@@ -1,26 +1,50 @@
-# delta-jitsi-invite
+# Jitsi Invite for webxdc
 
-Webxdc-App zum Erstellen einer Jitsi-Einladung direkt in einem Chat.
+## Title
+Jitsi Invite for webxdc
 
-Die App erzeugt aus der Vorschau einen Nachrichtentext und uebergibt ihn per webxdc an den Chat. In einer echten webxdc-Umgebung oeffnet der Hauptbutton einen Chat-Entwurf. Im normalen Browser-Preview steht diese API nicht zur Verfuegung; dort wird derselbe Text stattdessen in die Zwischenablage kopiert.
+## Goal
+Create and share meeting invites in Delta Chat (or another webxdc host) from a structured form.
 
-Lokale Vorschau in VS Code:
+The app lets users:
+1. Fill in meeting details (title, description, date, time, duration, room, agenda).
+2. Preview the invitation in real time.
+3. Send the preview as a chat draft via `webxdc.sendToChat()`.
 
-1. Task Run Task ausfuehren.
-2. Die Task Start Jitsi Invite Preview waehlen.
-3. Danach die weitergeleitete Port-5000-URL im Browser oeffnen.
+## Images
+Screenshots will be added soon.
 
-Alternativ im Terminal:
+Planned image slots:
+1. Form view
+2. Preview card
+3. Chat draft output in Delta Chat
 
+## Usage
+
+### Run locally (browser preview)
+1. Start the VS Code task `Start Jitsi Invite Preview`.
+2. Open the forwarded port URL (port `5000`).
+
+Alternative terminal command:
+
+```bash
 python3 -m http.server 5000
+```
 
-webxdc-Datei bauen:
+Note:
+In normal browser preview, the webxdc API is not available. The app falls back to copying the message text.
 
-1. Im Projektordner die Build-Task ausfuehren oder den folgenden Befehl verwenden.
-2. Die erzeugte Datei delta-jitsi-invite.xdc in Delta Chat oder einem anderen webxdc-faehigen Messenger teilen.
+### Build the `.xdc` package
+Use the VS Code task `Build webxdc Package` or run:
 
+```bash
 zip -9 -r delta-jitsi-invite.xdc . -x ".git/*" ".github/*" ".vscode/*" "webxdc.js" "*.xdc"
+```
 
-Hinweis:
+Then share `delta-jitsi-invite.xdc` in your chat and start the app.
 
-Die Datei webxdc.js im Repository ist nur ein lokaler Preview-Stub und darf nicht in die finale .xdc-Datei gepackt werden.
+### Release automation
+On every push, GitHub Actions:
+1. Creates the next version tag (`0.0.1`, `0.0.2`, ...).
+2. Builds a fresh `.xdc` artifact from the pushed commit.
+3. Publishes a GitHub Release and attaches `delta-jitsi-invite.xdc`.
