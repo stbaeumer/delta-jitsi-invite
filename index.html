@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jitsi-Einladung</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="page-shell">
+    <section class="panel form-panel">
+      <div class="hero-icon-wrap">
+        <img class="hero-icon" src="icons/icon.svg" alt="Formularsymbol" onerror="this.classList.add('hidden')">
+      </div>
+
+      <div class="title-block">
+        <h1 id="pageTitle">Jitsi-Einladung erstellen</h1>
+        <p class="subtitle" id="pageSubtitle">Alle Angaben werden direkt darunter als Einladungsvorschau dargestellt oder als Einladungstext kopiert.</p>
+      </div>
+
+      <form id="inviteForm">
+        <div class="field">
+          <label class="field-label" for="language">
+            <span id="languageLabel">Sprache festlegen:</span>
+          </label>
+          <select id="language" name="language">
+            <option value="de" selected>Deutsch</option>
+            <option value="en">English</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label class="field-label" for="meetingTitle">
+            <img class="field-icon" src="icons/titel.svg" alt="Titel" onerror="this.classList.add('hidden')">
+            <span id="meetingTitleLabel">Titel des Meetings:</span>
+          </label>
+          <input id="meetingTitle" name="meetingTitle" type="text" autocomplete="off">
+        </div>
+
+        <div class="field">
+          <label class="field-label" for="description">
+            <img class="field-icon" src="icons/beschreibung.svg" alt="Beschreibung" onerror="this.classList.add('hidden')">
+            <span id="descriptionLabel">Beschreibung:</span>
+          </label>
+          <textarea id="description" name="description"></textarea>
+        </div>
+
+        <div class="datetime-grid">
+          <div class="field">
+            <label class="field-label" for="startDateTime">
+              <img class="field-icon" src="icons/datumUhrzeit.svg" alt="Datum und Uhrzeit" onerror="this.classList.add('hidden')">
+              <span id="startDateTimeLabel">Startdatum und Uhrzeit:</span>
+            </label>
+            <input id="startDateTime" name="startDateTime" type="datetime-local">
+          </div>
+
+          <div class="field">
+            <label class="field-label" for="secondDateTime">
+              <img class="field-icon" src="icons/datumUhrzeit.svg" alt="Datum und Uhrzeit" onerror="this.classList.add('hidden')">
+              <span id="secondDateTimeLabel">Enddatum und Uhrzeit:</span>
+            </label>
+            <input id="secondDateTime" name="secondDateTime" type="datetime-local">
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="field-label" for="durationMinutes">
+            <img class="field-icon" src="icons/dauer.svg" alt="Dauer" onerror="this.classList.add('hidden')">
+            <span id="durationLabel">Dauer in Minuten:</span>
+          </label>
+          <input id="durationMinutes" name="durationMinutes" type="number" min="0" step="1" inputmode="numeric">
+        </div>
+
+        <div class="field">
+          <label class="field-label" for="serverSelect">
+            <img class="field-icon" src="icons/server.svg" alt="Server" onerror="this.classList.add('hidden')">
+            <span id="serverLabel">Auswahl des Servers:</span>
+          </label>
+          <select id="serverSelect" name="serverSelect">
+            <option value="https://meet.systemli.org">meet.systemli.org</option>
+            <option value="https://brie.fi/ng">https://brie.fi/ng</option>
+            <option value="https://chitchatter.im/private">https://chitchatter.im/private</option>
+            <option value="https://galene.org:8443/group/public-vp9">https://galene.org:8443/group/public-vp9</option>
+            <option value="https://kmeet.infomaniak.com">https://kmeet.infomaniak.com</option>
+            <option value="https://mirotalk.up.railway.app/join">https://mirotalk.up.railway.app/join</option>
+            <option value="https://p2p.mirotalk.com/join">https://p2p.mirotalk.com/join</option>
+            <option value="https://sfu.mirotalk.com/join">https://sfu.mirotalk.com/join</option>
+            <option value="custom">Anderer Server</option>
+          </select>
+        </div>
+
+        <div class="field hidden" id="customServerField">
+          <label class="field-label" for="customServer">
+            <img class="field-icon" src="icons/server.svg" alt="Anderer Server" onerror="this.classList.add('hidden')">
+            <span id="customServerLabel">Anderen Server angeben:</span>
+          </label>
+          <input id="customServer" name="customServer" type="url" inputmode="url" placeholder="https://example.org/meeting">
+        </div>
+
+        <div class="field">
+          <label class="field-label" for="roomName">
+            <img class="field-icon" src="icons/raum.svg" alt="Raum" onerror="this.classList.add('hidden')">
+            <span id="roomLabel">Raum angeben:</span>
+          </label>
+          <input id="roomName" name="roomName" type="text" autocomplete="off">
+        </div>
+
+        <div class="field">
+          <label class="field-label" for="agenda">
+            <img class="field-icon" src="icons/agenda.svg" alt="Agenda" onerror="this.classList.add('hidden')">
+            <span id="agendaLabel">Agenda angeben:</span>
+          </label>
+          <textarea id="agenda" name="agenda"></textarea>
+        </div>
+
+        <div class="actions">
+          <div class="actions-grid">
+            <button id="submitButton" class="primary-button" type="submit">Per E-Mail senden</button>
+            <button id="copyButton" class="secondary-button" type="button">Einladung kopieren</button>
+          </div>
+          <div class="assistive" id="submitHint">Der erste Button erstellt eine E-Mail, der zweite kopiert den Einladungstext.</div>
+        </div>
+
+        <div class="invitation-output">
+          <p class="output-label" id="outputHeading">Einladungstext</p>
+          <pre class="output-text" id="invitationOutput"></pre>
+        </div>
+      </form>
+    </section>
+
+    <section class="panel preview-panel" aria-live="polite">
+      <div class="preview-header">
+        <h2 id="previewHeading">Vorschau</h2>
+      </div>
+
+      <div class="preview-card">
+        <h3 class="preview-title" id="previewTitle">Titel des Meetings</h3>
+
+        <div class="preview-item">
+          <div class="preview-label">
+            <img class="field-icon" src="icons/beschreibung.svg" alt="Beschreibung" onerror="this.classList.add('hidden')">
+            <span id="previewDescriptionLabel">Beschreibung:</span>
+          </div>
+          <div class="preview-value" id="previewDescription"></div>
+        </div>
+
+        <div class="preview-item">
+          <div class="preview-label">
+            <img class="field-icon" src="icons/datumUhrzeit.svg" alt="Datum und Uhrzeit" onerror="this.classList.add('hidden')">
+            <span id="previewStartLabel">Startdatum und Uhrzeit:</span>
+          </div>
+          <div class="preview-value" id="previewStartDateTime"></div>
+        </div>
+
+        <div class="preview-item" id="previewSecondDateTimeRow">
+          <div class="preview-label">
+            <img class="field-icon" src="icons/datumUhrzeit.svg" alt="Zusätzliche Zeit" onerror="this.classList.add('hidden')">
+            <span id="previewSecondLabel">Enddatum und Uhrzeit:</span>
+          </div>
+          <div class="preview-value" id="previewSecondDateTime"></div>
+        </div>
+
+        <div class="preview-item">
+          <div class="preview-label">
+            <img class="field-icon" src="icons/dauer.svg" alt="Dauer" onerror="this.classList.add('hidden')">
+            <span id="previewDurationLabel">Dauer:</span>
+          </div>
+          <div class="preview-value" id="previewDuration"></div>
+        </div>
+
+        <div class="preview-item">
+          <div class="preview-label">
+            <img class="field-icon" src="icons/server.svg" alt="Server" onerror="this.classList.add('hidden')">
+            <span id="previewServerLabel">Server:</span>
+          </div>
+          <div class="preview-value" id="previewServer"></div>
+        </div>
+
+        <div class="preview-item">
+          <div class="preview-label">
+            <img class="field-icon" src="icons/raum.svg" alt="Raum" onerror="this.classList.add('hidden')">
+            <span id="previewRoomLabel">Raum:</span>
+          </div>
+          <div class="preview-value" id="previewRoom"></div>
+        </div>
+
+        <div class="preview-item">
+          <div class="preview-label">
+            <img class="field-icon" src="icons/agenda.svg" alt="Agenda" onerror="this.classList.add('hidden')">
+            <span id="previewAgendaLabel">Agenda:</span>
+          </div>
+          <div class="preview-value" id="previewAgenda"></div>
+        </div>
+
+        <div class="preview-item">
+          <div class="preview-label">
+            <img class="field-icon" src="icons/server.svg" alt="Raum betreten" onerror="this.classList.add('hidden')">
+            <span id="previewJoinLabel">Raum betreten:</span>
+          </div>
+          <div class="preview-value" id="previewJoinUrl"></div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
