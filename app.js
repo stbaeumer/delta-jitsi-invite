@@ -5,8 +5,8 @@ const translations = {
     languageLabel: 'Sprache festlegen:',
     meetingTitleLabel: 'Titel des Meetings:',
     descriptionLabel: 'Beschreibung:',
-    startDateTimeLabel: 'Startdatum und Uhrzeit:',
-    secondDateTimeLabel: 'Enddatum und Uhrzeit:',
+    startDateLabel: 'Startdatum:',
+    startTimeLabel: 'Startuhrzeit:',
     durationLabel: 'Dauer in Minuten:',
     serverLabel: 'Auswahl des Servers:',
     customServerLabel: 'Anderen Server angeben:',
@@ -19,8 +19,8 @@ const translations = {
     outputHeading: 'Einladungstext',
     previewHeading: 'Vorschau',
     previewDescriptionLabel: 'Beschreibung:',
-    previewStartLabel: 'Startdatum und Uhrzeit:',
-    previewSecondLabel: 'Enddatum und Uhrzeit:',
+    previewStartDateLabel: 'Startdatum:',
+    previewStartTimeLabel: 'Startuhrzeit:',
     previewDurationLabel: 'Dauer:',
     previewServerLabel: 'Server:',
     previewRoomLabel: 'Raum:',
@@ -28,8 +28,8 @@ const translations = {
     previewJoinLabel: 'Raum betreten:',
     placeholderTitle: 'Titel des Meetings',
     placeholderDescription: 'Keine Beschreibung angegeben',
-    placeholderDateTime: 'Kein Starttermin angegeben',
-    placeholderSecondDateTime: 'Kein Endtermin angegeben',
+    placeholderStartDate: 'Kein Startdatum angegeben',
+    placeholderStartTime: 'Keine Startuhrzeit angegeben',
     placeholderDuration: 'Keine Dauer angegeben',
     placeholderServer: 'Kein Server ausgewählt',
     placeholderRoom: 'Kein Raum angegeben',
@@ -47,8 +47,8 @@ const translations = {
     languageLabel: 'Choose language:',
     meetingTitleLabel: 'Meeting title:',
     descriptionLabel: 'Description:',
-    startDateTimeLabel: 'Start date and time:',
-    secondDateTimeLabel: 'End date and time:',
+    startDateLabel: 'Start date:',
+    startTimeLabel: 'Start time:',
     durationLabel: 'Duration in minutes:',
     serverLabel: 'Select server:',
     customServerLabel: 'Enter custom server:',
@@ -61,8 +61,8 @@ const translations = {
     outputHeading: 'Invitation text',
     previewHeading: 'Preview',
     previewDescriptionLabel: 'Description:',
-    previewStartLabel: 'Start date and time:',
-    previewSecondLabel: 'End date and time:',
+    previewStartDateLabel: 'Start date:',
+    previewStartTimeLabel: 'Start time:',
     previewDurationLabel: 'Duration:',
     previewServerLabel: 'Server:',
     previewRoomLabel: 'Room:',
@@ -70,8 +70,8 @@ const translations = {
     previewJoinLabel: 'Join room:',
     placeholderTitle: 'Meeting title',
     placeholderDescription: 'No description entered',
-    placeholderDateTime: 'No start time entered',
-    placeholderSecondDateTime: 'No end time entered',
+    placeholderStartDate: 'No start date entered',
+    placeholderStartTime: 'No start time entered',
     placeholderDuration: 'No duration entered',
     placeholderServer: 'No server selected',
     placeholderRoom: 'No room entered',
@@ -90,18 +90,16 @@ const languageSelect = document.getElementById('language');
 const serverSelect = document.getElementById('serverSelect');
 const customServerField = document.getElementById('customServerField');
 const customServerInput = document.getElementById('customServer');
-const secondDateTimeInput = document.getElementById('secondDateTime');
 const durationInput = document.getElementById('durationMinutes');
 const copyButton = document.getElementById('copyButton');
 const submitButton = document.getElementById('submitButton');
 const invitationOutput = document.getElementById('invitationOutput');
-const previewSecondDateTimeRow = document.getElementById('previewSecondDateTimeRow');
 
 const fields = {
   meetingTitle: document.getElementById('meetingTitle'),
   description: document.getElementById('description'),
-  startDateTime: document.getElementById('startDateTime'),
-  secondDateTime: secondDateTimeInput,
+  startDate: document.getElementById('startDate'),
+  startTime: document.getElementById('startTime'),
   durationMinutes: durationInput,
   roomName: document.getElementById('roomName'),
   agenda: document.getElementById('agenda')
@@ -110,17 +108,13 @@ const fields = {
 const preview = {
   title: document.getElementById('previewTitle'),
   description: document.getElementById('previewDescription'),
-  startDateTime: document.getElementById('previewStartDateTime'),
-  secondDateTime: document.getElementById('previewSecondDateTime'),
+  startDate: document.getElementById('previewStartDate'),
+  startTime: document.getElementById('previewStartTime'),
   duration: document.getElementById('previewDuration'),
-  server: document.getElementById('previewServer'),
   room: document.getElementById('previewRoom'),
   agenda: document.getElementById('previewAgenda'),
   joinUrl: document.getElementById('previewJoinUrl')
 };
-
-let isUpdatingEndTime = false;
-let lastAutoEndValue = '';
 
 function localizePage(language) {
   const copy = translations[language];
@@ -146,19 +140,39 @@ function localizePage(language) {
   updatePreview();
 }
 
-function formatDateTime(value, language) {
+function formatDate(value, language) {
   if (!value) {
     return '';
   }
 
-  const parsed = new Date(value);
+  const parsed = new Date(value + 'T00:00');
   if (Number.isNaN(parsed.getTime())) {
     return value;
   }
 
   return new Intl.DateTimeFormat(language === 'de' ? 'de-DE' : 'en-GB', {
-    dateStyle: 'full',
-    timeStyle: 'short'
+    dateStyle: 'full'
+  }).format(parsed);
+}
+
+function formatTime(value, language) {
+  if (!value) {
+    return '';
+  }
+
+  const [hours, minutes] = value.split(':');
+  if (hours === undefined || minutes === undefined) {
+    return value;
+  }
+
+  const parsed = new Date(Date.UTC(1970, 0, 1, Number(hours), Number(minutes)));
+  if (Number.isNaN(parsed.getTime())) {
+    return value;
+  }
+
+  return new Intl.DateTimeFormat(language === 'de' ? 'de-DE' : 'en-GB', {
+    timeStyle: 'short',
+    timeZone: 'UTC'
   }).format(parsed);
 }
 
@@ -220,32 +234,6 @@ function updateCustomServerVisibility() {
   }
 }
 
-function autoCalculateEndTime() {
-  const startValue = fields.startDateTime.value;
-  const durationValue = Number.parseInt(fields.durationMinutes.value, 10);
-  const currentEndValue = fields.secondDateTime.value;
-  const shouldReplaceEnd = !currentEndValue || currentEndValue === lastAutoEndValue;
-
-  if (!startValue || !Number.isFinite(durationValue) || durationValue <= 0 || !shouldReplaceEnd) {
-    return;
-  }
-
-  const startDate = new Date(startValue);
-  if (Number.isNaN(startDate.getTime())) {
-    return;
-  }
-
-  const endDate = new Date(startDate.getTime() + durationValue * 60000);
-  const timezoneOffset = endDate.getTimezoneOffset();
-  const localDate = new Date(endDate.getTime() - timezoneOffset * 60000);
-  const nextValue = localDate.toISOString().slice(0, 16);
-
-  isUpdatingEndTime = true;
-  fields.secondDateTime.value = nextValue;
-  lastAutoEndValue = nextValue;
-  isUpdatingEndTime = false;
-}
-
 function buildInvitationText(language) {
   const copy = translations[language];
   const server = selectedServer();
@@ -259,8 +247,8 @@ function buildInvitationText(language) {
     '',
     copy.meetingTitleLabel + ' ' + (fields.meetingTitle.value.trim() || copy.placeholderTitle),
     copy.descriptionLabel + ' ' + (fields.description.value.trim() || copy.placeholderDescription),
-    copy.startDateTimeLabel + ' ' + (formatDateTime(fields.startDateTime.value, language) || copy.placeholderDateTime),
-    copy.secondDateTimeLabel + ' ' + (formatDateTime(fields.secondDateTime.value, language) || copy.placeholderSecondDateTime),
+    copy.startDateLabel + ' ' + (formatDate(fields.startDate.value, language) || copy.placeholderStartDate),
+    copy.startTimeLabel + ' ' + (formatTime(fields.startTime.value, language) || copy.placeholderStartTime),
     copy.durationLabel + ' ' + (fields.durationMinutes.value ? fields.durationMinutes.value + ' ' + copy.durationUnit : copy.placeholderDuration),
     copy.serverLabel + ' ' + (server || copy.placeholderServer),
     copy.roomLabel + ' ' + (room || copy.placeholderRoom),
@@ -277,20 +265,17 @@ function updatePreview() {
   const server = selectedServer();
   const room = fields.roomName.value.trim();
   const joinUrl = buildJoinUrl(server, room);
-  const secondDateTimeFormatted = formatDateTime(fields.secondDateTime.value, language);
 
   setPreviewText(preview.title, fields.meetingTitle.value.trim(), copy.placeholderTitle);
   setPreviewText(preview.description, fields.description.value.trim(), copy.placeholderDescription);
-  setPreviewText(preview.startDateTime, formatDateTime(fields.startDateTime.value, language), copy.placeholderDateTime);
-  setPreviewText(preview.secondDateTime, secondDateTimeFormatted, copy.placeholderSecondDateTime);
+  setPreviewText(preview.startDate, formatDate(fields.startDate.value, language), copy.placeholderStartDate);
+  setPreviewText(preview.startTime, formatTime(fields.startTime.value, language), copy.placeholderStartTime);
   setPreviewText(preview.duration, fields.durationMinutes.value ? fields.durationMinutes.value + ' ' + copy.durationUnit : '', copy.placeholderDuration);
-  setPreviewText(preview.server, server, copy.placeholderServer);
   setPreviewText(preview.room, room, copy.placeholderRoom);
   setPreviewText(preview.agenda, fields.agenda.value.trim(), copy.placeholderAgenda);
   setPreviewText(preview.joinUrl, joinUrl, copy.placeholderJoin, true);
 
   invitationOutput.textContent = buildInvitationText(language);
-  previewSecondDateTimeRow.classList.toggle('hidden', !fields.secondDateTime.value.trim());
 }
 
 async function copyInvitation() {
@@ -325,21 +310,9 @@ serverSelect.addEventListener('change', () => {
 copyButton.addEventListener('click', copyInvitation);
 customServerInput.addEventListener('input', updatePreview);
 
-fields.startDateTime.addEventListener('input', () => {
-  autoCalculateEndTime();
-  updatePreview();
-});
-
-fields.durationMinutes.addEventListener('input', () => {
-  autoCalculateEndTime();
-  updatePreview();
-});
-
-fields.secondDateTime.addEventListener('input', () => {
-  if (!isUpdatingEndTime) {
-    lastAutoEndValue = fields.secondDateTime.value;
-  }
-  updatePreview();
+[fields.startDate, fields.startTime, fields.durationMinutes].forEach((field) => {
+  field.addEventListener('input', updatePreview);
+  field.addEventListener('change', updatePreview);
 });
 
 [fields.meetingTitle, fields.description, fields.roomName, fields.agenda].forEach((field) => {
@@ -356,5 +329,4 @@ form.addEventListener('submit', (event) => {
 });
 
 updateCustomServerVisibility();
-autoCalculateEndTime();
 localizePage(languageSelect.value);

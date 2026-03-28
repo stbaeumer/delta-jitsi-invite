@@ -45,21 +45,21 @@
           <textarea id="description" name="description"></textarea>
         </div>
 
-        <div class="datetime-grid">
+        <div class="datetime-stack">
           <div class="field">
-            <label class="field-label" for="startDateTime">
-              <img class="field-icon" src="icons/datumUhrzeit.svg" alt="Datum und Uhrzeit" onerror="this.classList.add('hidden')">
-              <span id="startDateTimeLabel">Startdatum und Uhrzeit:</span>
+            <label class="field-label" for="startDate">
+              <img class="field-icon" src="icons/datumUhrzeit.svg" alt="Datum" onerror="this.classList.add('hidden')">
+              <span id="startDateLabel">Startdatum:</span>
             </label>
-            <input id="startDateTime" name="startDateTime" type="datetime-local">
+            <input id="startDate" name="startDate" type="date">
           </div>
 
           <div class="field">
-            <label class="field-label" for="secondDateTime">
-              <img class="field-icon" src="icons/datumUhrzeit.svg" alt="Datum und Uhrzeit" onerror="this.classList.add('hidden')">
-              <span id="secondDateTimeLabel">Enddatum und Uhrzeit:</span>
+            <label class="field-label" for="startTime">
+              <img class="field-icon" src="icons/datumUhrzeit.svg" alt="Uhrzeit" onerror="this.classList.add('hidden')">
+              <span id="startTimeLabel">Startuhrzeit:</span>
             </label>
-            <input id="secondDateTime" name="secondDateTime" type="datetime-local">
+            <input id="startTime" name="startTime" type="time">
           </div>
         </div>
 
@@ -134,6 +134,10 @@
       </div>
 
       <div class="preview-card">
+        <div class="hero-icon-wrap">
+          <img class="hero-icon" src="icons/icon.svg" alt="Vorschausymbol" onerror="this.classList.add('hidden')">
+        </div>
+
         <h3 class="preview-title" id="previewTitle">Titel des Meetings</h3>
 
         <div class="preview-item">
@@ -146,18 +150,18 @@
 
         <div class="preview-item">
           <div class="preview-label">
-            <img class="field-icon" src="icons/datumUhrzeit.svg" alt="Datum und Uhrzeit" onerror="this.classList.add('hidden')">
-            <span id="previewStartLabel">Startdatum und Uhrzeit:</span>
+            <img class="field-icon" src="icons/datumUhrzeit.svg" alt="Datum" onerror="this.classList.add('hidden')">
+            <span id="previewStartDateLabel">Startdatum:</span>
           </div>
-          <div class="preview-value" id="previewStartDateTime"></div>
+          <div class="preview-value" id="previewStartDate"></div>
         </div>
 
-        <div class="preview-item" id="previewSecondDateTimeRow">
+        <div class="preview-item">
           <div class="preview-label">
-            <img class="field-icon" src="icons/datumUhrzeit.svg" alt="Zusätzliche Zeit" onerror="this.classList.add('hidden')">
-            <span id="previewSecondLabel">Enddatum und Uhrzeit:</span>
+            <img class="field-icon" src="icons/datumUhrzeit.svg" alt="Uhrzeit" onerror="this.classList.add('hidden')">
+            <span id="previewStartTimeLabel">Startuhrzeit:</span>
           </div>
-          <div class="preview-value" id="previewSecondDateTime"></div>
+          <div class="preview-value" id="previewStartTime"></div>
         </div>
 
         <div class="preview-item">
@@ -166,14 +170,6 @@
             <span id="previewDurationLabel">Dauer:</span>
           </div>
           <div class="preview-value" id="previewDuration"></div>
-        </div>
-
-        <div class="preview-item">
-          <div class="preview-label">
-            <img class="field-icon" src="icons/server.svg" alt="Server" onerror="this.classList.add('hidden')">
-            <span id="previewServerLabel">Server:</span>
-          </div>
-          <div class="preview-value" id="previewServer"></div>
         </div>
 
         <div class="preview-item">
