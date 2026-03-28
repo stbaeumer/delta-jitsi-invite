@@ -49,7 +49,8 @@ const translations = {
     chatPreparedHint: 'Der Chat-Entwurf wurde vorbereitet.',
     chatFallbackHint: 'webxdc ist hier nicht verfügbar. Der Nachrichtentext wurde stattdessen kopiert.',
     chatErrorHint: 'Die Nachricht konnte nicht an den Chat übergeben werden.',
-    footerLinkLabel: 'Projekt auf GitHub ansehen'
+    footerLinkLabel: 'Projekt auf GitHub ansehen',
+    footerServersLabel: 'Liste kostenloser Jitsi-Server'
   },
   en: {
     pageTitle: 'Create Jitsi Invitation',
@@ -101,7 +102,8 @@ const translations = {
     chatPreparedHint: 'The chat draft was prepared.',
     chatFallbackHint: 'webxdc is not available here. The message text was copied instead.',
     chatErrorHint: 'The message could not be handed over to the chat.',
-    footerLinkLabel: 'View project on GitHub'
+    footerLinkLabel: 'View project on GitHub',
+    footerServersLabel: 'List of free Jitsi servers'
   },
   fr: {
     pageTitle: 'Créer une invitation Jitsi',
@@ -153,7 +155,8 @@ const translations = {
     chatPreparedHint: 'Le brouillon de chat a été préparé.',
     chatFallbackHint: 'webxdc n\'est pas disponible ici. Le texte du message a été copié.',
     chatErrorHint: 'Le message n\'a pas pu être transféré au chat.',
-    footerLinkLabel: 'Voir le projet sur GitHub'
+    footerLinkLabel: 'Voir le projet sur GitHub',
+    footerServersLabel: 'Liste de serveurs Jitsi gratuits'
   },
   nl: {
     pageTitle: 'Jitsi-uitnodiging maken',
@@ -205,7 +208,8 @@ const translations = {
     chatPreparedHint: 'Het chatconcept is voorbereid.',
     chatFallbackHint: 'webxdc is hier niet beschikbaar. De berichttekst is gekopieerd.',
     chatErrorHint: 'Het bericht kon niet aan de chat worden doorgegeven.',
-    footerLinkLabel: 'Bekijk project op GitHub'
+    footerLinkLabel: 'Bekijk project op GitHub',
+    footerServersLabel: 'Lijst met gratis Jitsi-servers'
   }
 };
 
