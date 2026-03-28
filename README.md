@@ -19,7 +19,7 @@ webxdc-Datei bauen:
 1. Im Projektordner die Build-Task ausfuehren oder den folgenden Befehl verwenden.
 2. Die erzeugte Datei delta-jitsi-invite.xdc in Delta Chat oder einem anderen webxdc-faehigen Messenger teilen.
 
-zip -9 -r delta-jitsi-invite.xdc . -x ".git/*" ".vscode/*" "webxdc.js" "*.xdc"
+zip -9 -r delta-jitsi-invite.xdc . -x ".git/*" ".github/*" ".vscode/*" "webxdc.js" "*.xdc"
 
 Hinweis:
 

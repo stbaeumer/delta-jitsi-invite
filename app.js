@@ -37,6 +37,14 @@ const translations = {
     placeholderJoin: 'URL wird automatisch erzeugt',
     durationUnit: 'Minuten',
     customServerOption: 'Anderer Server',
+    msgIconTitle: '🎥',
+    msgIconDescription: '📝',
+    msgIconDate: '📅',
+    msgIconTime: '⏰',
+    msgIconDuration: '⏳',
+    msgIconRoom: '🚪',
+    msgIconAgenda: '📋',
+    msgIconJoin: '🔗',
     chatPreparedHint: 'Der Chat-Entwurf wurde vorbereitet.',
     chatFallbackHint: 'webxdc ist hier nicht verfuegbar. Der Nachrichtentext wurde stattdessen kopiert.',
     chatErrorHint: 'Die Nachricht konnte nicht an den Chat uebergeben werden.'
@@ -79,6 +87,14 @@ const translations = {
     placeholderJoin: 'URL will be generated automatically',
     durationUnit: 'minutes',
     customServerOption: 'Custom server',
+    msgIconTitle: '🎥',
+    msgIconDescription: '📝',
+    msgIconDate: '📅',
+    msgIconTime: '⏰',
+    msgIconDuration: '⏳',
+    msgIconRoom: '🚪',
+    msgIconAgenda: '📋',
+    msgIconJoin: '🔗',
     chatPreparedHint: 'The chat draft was prepared.',
     chatFallbackHint: 'webxdc is not available here. The message text was copied instead.',
     chatErrorHint: 'The message could not be handed over to the chat.'
@@ -265,18 +281,39 @@ function buildSharedMessage(language) {
   const content = getPreviewContent(language);
 
   const lines = [
-    content.title,
+    copy.msgIconTitle + ' ' + content.title,
     '',
-    copy.previewDescriptionLabel + ' ' + content.description,
-    copy.previewStartDateLabel + ' ' + content.startDate,
-    copy.previewStartTimeLabel + ' ' + content.startTime,
-    copy.previewDurationLabel + ' ' + content.duration,
-    copy.previewRoomLabel + ' ' + content.room,
-    copy.previewAgendaLabel + ' ' + content.agenda,
-    copy.previewJoinLabel + ' ' + content.joinUrl
+    copy.msgIconDescription + ' ' + copy.previewDescriptionLabel,
+    content.description,
+    '',
+    copy.msgIconDate + ' ' + copy.previewStartDateLabel,
+    content.startDate,
+    '',
+    copy.msgIconTime + ' ' + copy.previewStartTimeLabel,
+    content.startTime,
+    '',
+    copy.msgIconDuration + ' ' + copy.previewDurationLabel,
+    content.duration,
+    '',
+    copy.msgIconRoom + ' ' + copy.previewRoomLabel,
+    content.room,
+    '',
+    copy.msgIconAgenda + ' ' + copy.previewAgendaLabel,
+    content.agenda,
+    '',
+    copy.msgIconJoin + ' ' + copy.previewJoinLabel,
+    content.joinUrl
   ];
 
   return lines.join('\n');
+}
+
+async function getAppIconBlob() {
+  const response = await fetch('icon.png', { cache: 'no-store' });
+  if (!response.ok) {
+    throw new Error('Failed to load icon.png for chat attachment.');
+  }
+  return response.blob();
 }
 
 function showSubmitFeedback(message, state) {
@@ -344,11 +381,13 @@ async function sendMessageToChat() {
       return;
     }
 
+    const iconBlob = await getAppIconBlob();
+
     await window.webxdc.sendToChat({
       text,
       file: {
-        name: 'jitsi-einladung.txt',
-        plainText: text
+        name: 'icon.png',
+        blob: iconBlob
       }
     });
 
